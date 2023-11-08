@@ -5,16 +5,22 @@ namespace App\Livewire;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use App\Models\Post;
+use App\Models\Attachment;
 use App\Http\Support\RateLimiter;
 use Illuminate\Support\Str;
-
+use Livewire\WithFileUploads;
 
 class CreatePost extends Component {
+    use WithFileUploads;
+
     #[Rule('required|in:0,1,2')]
     public $privacy = '';
 
     #[Rule('required|min:3')]
     public $body = '';
+
+    #[Rule(['attachments.*' => 'image|max:1024'])]
+    public $attachments = [];
 
     public function save() {
 
@@ -39,9 +45,21 @@ class CreatePost extends Component {
                 $post->token = Str::uuid();
                 $post->save();
 
+                /* Saving the attachments to the database. */
+                if ($this->attachments) {
+                    foreach ($this->attachments as $attachment) {
+                        $path = $attachment->store('public/postAttachments');
+                        $attachment = new Attachment;
+                        $attachment->file_path = str_replace('public/', '', $path);
+                        $attachment->post_id = $post->id;
+                        $attachment->save();
+                    }
+                }
+
                 /* Resetting the form for a new post */
                 $this->privacy = "";
                 $this->body = "";
+                $this->attachments = [];
             },
             300
         );
@@ -52,6 +70,6 @@ class CreatePost extends Component {
     }
 
     public function render() {
-        return view('livewire.create-post');
+        return view('livewire.create-post')->with(['attachmentsCount' => count($this->attachments)]);
     }
 }

@@ -19,6 +19,16 @@
             <x-input-error for="body" class="mt-2" />
         </div>
 
+        <div class="col-span-6 sm:col-span-4">
+            <input type="file" class="hidden" wire:model="attachments" x-ref="attachments" multiple />
+            <x-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.attachments.click()">
+                {{ __('Add an attachment') }}
+                @if ($attachmentsCount > 0)
+                <span class="w-4 h-4 ml-1 rounded-full text-white dark:text-gray-800 bg-gray-800 dark:bg-gray-200">{{ $attachmentsCount }}</span>
+                @endif
+            </x-secondary-button>
+        </div>
+
     </x-slot>
 
     <x-slot name="actions">

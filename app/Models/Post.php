@@ -23,4 +23,13 @@ class Post extends Model {
     public function recipient() {
         return $this->belongsTo(User::class, 'recipient_id');
     }
+
+    /**
+     * The attachments() function returns all the attachments that belong to this post
+     *
+     * @return A collection of Attachment objects.
+     */
+    public function attachments() {
+        return $this->hasMany(Attachment::class);
+    }
 }
