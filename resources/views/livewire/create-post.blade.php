@@ -22,12 +22,12 @@
     </x-slot>
 
     <x-slot name="actions">
-        <x-button type="submit">
+        <x-button type="submit" wire:loading.attr="disabled">
             Save
             <div wire:loading>
-                <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="32px" height="32px"
-                    viewBox="0 0 128 128" xml:space="preserve">
+                <?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0"
+                    width="16px" height="16px" viewBox="0 0 128 128" xml:space="preserve">
                     <g>
                         <circle cx="16" cy="64" r="16" fill="#000000" />
                         <circle cx="16" cy="64" r="16" fill="#555555" transform="rotate(45,64,64)" />
