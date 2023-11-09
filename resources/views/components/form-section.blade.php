@@ -1,4 +1,4 @@
-@props(['submit'])
+@props(['submit', 'gap' => "gap-6"])
 
 <div {{ $attributes->merge(['class' => 'md:grid md:grid-cols-3 md:gap-6']) }}>
     @if ((isset($title)) || (isset($description)))
@@ -12,7 +12,7 @@
         <form wire:submit="{{ $submit }}">
             <div
                 class="px-4 py-5 bg-white dark:bg-gray-800 sm:p-6 shadow {{ isset($actions) ? 'sm:rounded-tl-md sm:rounded-tr-md' : 'sm:rounded-md' }}">
-                <div class="grid grid-cols-6 gap-6">
+                <div class="grid grid-cols-6 {{ $gap }}">
                     {{ $form }}
                 </div>
             </div>
