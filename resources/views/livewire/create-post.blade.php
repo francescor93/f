@@ -3,7 +3,6 @@
     <x-slot name="form">
 
         <div class="col-span-6 sm:col-span-4">
-            <x-label for="privacy" value="{{ __('Privacy') }}" />
             <x-select id="privacy" class="block mt-1 w-full" name="privacy" wire:model="privacy" required autofocus>
                 <option value="" wire:key="none" selected disabled>{{ __('Choose privacy') }}</option>
                 <option value="0" wire:key="privacy-0">{{ __('All') }}</option>
@@ -14,8 +13,7 @@
         </div>
 
         <div class="col-span-6 sm:col-span-4">
-            <x-label for="body" value="{{ __('Body') }}" />
-            <x-textarea id="body" class="block mt-1 w-full" name="body" wire:model="body" required />
+            <x-textarea id="body" class="h-32 resize-none block mt-1 w-full" name="body" wire:model="body" required placeholder="{{ __('What is happening?') }}" />
             <x-input-error for="body" class="mt-2" />
         </div>
 
@@ -33,7 +31,7 @@
 
     <x-slot name="actions">
         <x-button type="submit" wire:loading.attr="disabled">
-            Save
+            {{ __('Send') }}
             <div wire:loading>
                 <?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns:svg="http://www.w3.org/2000/svg"
                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0"
