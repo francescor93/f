@@ -58,4 +58,12 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function following() {
+        return $this->belongsToMany(User::class, 'relationships', 'follower_id', 'following_id');
+    }
+
+    public function followers() {
+        return $this->belongsToMany(User::class, 'relationships', 'following_id', 'follower_id');
+    }
 }
