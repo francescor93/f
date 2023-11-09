@@ -32,4 +32,18 @@ class Post extends Model {
     public function attachments() {
         return $this->hasMany(Attachment::class);
     }
+
+    /**
+     * This function returns the first row from the database where the token column is equal to the token
+     * parameter
+     *
+     * @param string token The token of the post you want to get.
+     *
+     * @return The first row of the table that matches the token.
+     */
+    public static function getByToken(string $token) {
+        return self::where('token', '=', $token)
+            ->first();
+    }
+
 }
