@@ -25,4 +25,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    Route::get('/post/{token}', function () {
+        return view('post');
+    })->name('post');
 });
