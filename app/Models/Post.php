@@ -46,4 +46,46 @@ class Post extends Model {
             ->first();
     }
 
+    /**
+     * It returns all the posts that are visible to the user, ordered by creation date
+     *
+     * @param user the user who is requesting the posts
+     *
+     * @return A collection of posts
+     */
+    public static function getHome() {
+        return self::where(function ($query) {
+
+            /* Checking if the privacy is ALL or REGISTERED USERs or (ONLY ME and I'm the sender of the
+                post). */
+            $query->where(function ($query) {
+                $query->where('privacy', '=', '0')
+                    ->orWhere('privacy', '=', '1')
+                    ->orWhere(function ($query) {
+                        $query->where('privacy', '=', '2')
+                            ->where('sender_id', '=', auth()->user()->id);
+                    });
+            })
+
+                /* Checking if the post is sent by me or sent by one of the users I follow or
+                    addressed to me or addressed to one of the users I follow. */
+                ->where(function ($query) {
+                    $query->where('sender_id', '=', auth()->user()->id)
+                        ->orWhere(function ($query) {
+                            $query->whereIn('sender_id', auth()->user()->following()->pluck('id'));
+                        })
+                        ->orWhere('recipient_id', '=', auth()->user()->id)
+                        ->orWhere(function ($query) {
+                            $query->whereIn('recipient_id', auth()->user()->following()->pluck('id'));
+                        });
+                })
+
+                /* Checking if the post is not deleted. */
+                ->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                });
+        })
+            ->orderByDesc('created_at')
+            ->get();
+    }
 }
