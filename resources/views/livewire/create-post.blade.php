@@ -2,7 +2,7 @@
 
     <x-slot name="form">
 
-        <div class="col-span-6 sm:col-span-4">
+        <div class="col-span-6 md:col-span-5 xl:col-span-4">
             <x-select id="privacy" class="block mt-1 w-full" name="privacy" wire:model="privacy" required autofocus>
                 <option value="" wire:key="none" selected disabled>{{ __('Choose privacy') }}</option>
                 <option value="0" wire:key="privacy-0">{{ __('All') }}</option>
@@ -12,12 +12,12 @@
             <x-input-error for="privacy" class="mt-2" />
         </div>
 
-        <div class="col-span-6 sm:col-span-4">
+        <div class="col-span-6 md:col-span-5 xl:col-span-4">
             <x-textarea id="body" class="h-32 resize-none block mt-1 w-full" name="body" wire:model="body" required placeholder="{{ __('What is happening?') }}" />
             <x-input-error for="body" class="mt-2" />
         </div>
 
-        <div class="col-span-6 sm:col-span-4">
+        <div class="col-span-6 md:col-span-5 xl:col-span-4">
             <input type="file" class="hidden" wire:model="attachments" x-ref="attachments" multiple />
             <x-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.attachments.click()">
                 {{ __('Add an attachment') }}
