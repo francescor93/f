@@ -1,5 +1,9 @@
 <div wire:poll.3000ms>
-    @foreach ($posts as $post)
+    @forelse ($posts as $post)
     <livewire:show-single-post :item="$post" wire:key="{{ $post->id }}" />
-    @endforeach
+    @empty
+    <p class="pt-2 text-center text-base font-medium">
+        No posts have been published yet
+    </p>
+    @endforelse
 </div>
