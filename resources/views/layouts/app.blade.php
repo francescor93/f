@@ -7,14 +7,14 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
+        {{-- Fonts --}}
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
+        {{-- Scripts --}}
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        <!-- Styles -->
+        {{-- Styles --}}
         @livewireStyles
     </head>
     <body class="font-sans antialiased">
@@ -23,9 +23,15 @@
         <div class="min-h-screen bg-blue-900 dark:bg-gray-900">
             @livewire('navigation-menu')
 
-            <!-- Page Content -->
+            {{-- Page Content --}}
             <main>
-                {{ $slot }}
+                <div class="py-12">
+                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div class="p-6 sm:px-10 lg:px-20 bg-white border-b border-gray-200">
+                            {{ $slot }}
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
 
