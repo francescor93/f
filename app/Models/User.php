@@ -9,9 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Storage;
 
-class User extends Authenticatable implements MustVerifyEmail
-{
+class User extends Authenticatable implements MustVerifyEmail {
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
@@ -66,5 +67,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function followers() {
         return $this->belongsToMany(User::class, 'relationships', 'following_id', 'follower_id');
+    }
+
+    public function sentPosts() {
+        return $this->hasMany(Post::class, 'sender_id');
+    }
+
+    public function receivedPosts() {
+        return $this->hasMany(Post::class, 'recipient_id');
+    }
+
+    public function attachments() {
+        return $this->hasManyThrough(Attachment::class, Post::class, 'sender_id');
     }
 }
