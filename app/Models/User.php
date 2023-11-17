@@ -59,7 +59,16 @@ class User extends Authenticatable implements MustVerifyEmail {
      */
     protected $appends = [
         'profile_photo_url',
+        'header_photo_url'
     ];
+
+    public function headerPhotoUrl(): Attribute {
+        return Attribute::get(function () {
+            return $this->header_photo_path
+                ? Storage::disk($this->profilePhotoDisk())->url($this->header_photo_path)
+                : $this->defaultProfilePhotoUrl();
+        });
+    }
 
     public function following() {
         return $this->belongsToMany(User::class, 'relationships', 'follower_id', 'following_id');
