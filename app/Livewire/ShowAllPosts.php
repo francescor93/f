@@ -9,6 +9,8 @@ class ShowAllPosts extends Component {
 
     public $source;
     public $posts;
+    public $class;
+    public $user;
 
     public function render() {
         if ($this->source == 'home') {

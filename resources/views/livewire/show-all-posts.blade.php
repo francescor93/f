@@ -1,4 +1,4 @@
-<div wire:poll.3000ms>
+<div class="{{ $class }}" wire:poll.3000ms>
     @forelse ($posts as $post)
     <livewire:show-single-post :item="$post" wire:key="{{ $post->id }}" />
     @empty
