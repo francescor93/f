@@ -88,4 +88,45 @@ class Post extends Model {
             ->orderByDesc('created_at')
             ->get();
     }
+
+    /**
+     * The function `getProfile` retrieves posts from the database based on privacy settings, sender
+     * and recipient IDs, and whether the post has been deleted, and returns them in descending order
+     * of creation.
+     *
+     * @param User user The "user" parameter is an instance of the User class. It represents the user
+     * whose profile is being retrieved.
+     *
+     * @return a collection of posts that meet certain criteria. The criteria include checking the
+     * privacy settings of the posts, checking if the post is sent by the owner of the profile or
+     * addressed to them, and checking if the post is not deleted. The posts are ordered in descending
+     * order based on their creation date.
+     */
+    public static function getProfile(User $user) {
+        return self::where(function ($query) use ($user) {
+
+            /* Checking if the privacy is ALL or REGISTERED USERs or (ONLY ME and I'm the sender of the
+                post). */
+            $query->where(function ($query) use ($user) {
+                $query->where('privacy', '=', '0')
+                    ->orWhere('privacy', '=', '1')
+                    ->orWhere(function ($query) use ($user) {
+                        $query->where('privacy', '=', '2')
+                            ->where('sender_id', '=', $user->id);
+                    });
+            })
+                /* Checking if the post is sent by the owner of the profile or addressed to them. */
+                ->where(function ($query) use ($user) {
+                    $query->where('sender_id', '=', $user->id)
+                        ->orWhere('recipient_id', '=', $user->id);
+                })
+
+                /* Checking if the post is not deleted. */
+                ->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                });
+        })
+            ->orderByDesc('created_at')
+            ->get();
+    }
 }

@@ -15,6 +15,8 @@ class ShowAllPosts extends Component {
     public function render() {
         if ($this->source == 'home') {
             $this->posts = Post::getHome();
+        } elseif($this->source == 'profile') {
+            $this->posts = Post::getProfile($this->user);
         } else {
             abort(400);
         }
