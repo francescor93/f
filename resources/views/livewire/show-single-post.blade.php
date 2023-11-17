@@ -11,9 +11,10 @@
                 @endif
             </div>
             <div class="text-sm font-medium">
-                {{ $post->sender->name }}
+                <a href="{{ route('profile', ['user' => $post->sender->username]) }}">{{ $post->sender->name }}</a>
                 @if ($post->sender->id != $post->recipient->id)
-                &nbsp;>&nbsp;{{ $post->recipient->name}}
+                &nbsp;>&nbsp;<a href="{{ route('profile', ['user' => $post->recipient->id]) }}">{{
+                    $post->recipient->name}}</a>
                 @endif
             </div>
         </div>
@@ -27,8 +28,10 @@
         </div>
     </div>
     <div class="flex md:ml-2 mb-2">
-        <img class="w-10 h-10 md:w-20 md:h-20 rounded-full mr-4 md:mr-8 object-cover"
-            src="{{ $post->sender->profile_photo_url }}" alt="{{ $post->sender->name }}" width="200" height="200">
+        <a href="{{ route('profile', ['user' => $post->sender->username]) }}">
+            <img class="w-10 h-10 md:w-20 md:h-20 rounded-full mr-4 md:mr-8 object-cover"
+                src="{{ $post->sender->profile_photo_url }}" alt="{{ $post->sender->name }}" width="200" height="200">
+        </a>
         <div class="pt-2 space-y-4">
             <p class="text-base font-medium">
                 {{ $post->body }}
