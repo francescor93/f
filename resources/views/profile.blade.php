@@ -92,6 +92,7 @@
             </div>
             @endif
             <hr class="mt-4 mb-4" />
+            <livewire:follow-button :profileUser="$user->username" />
         </div>
 
         <div class="mt-5 md:pl-7 flex-1">
