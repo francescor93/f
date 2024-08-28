@@ -47,4 +47,8 @@
             @endif
         </div>
     </div>
+    <hr/>
+    <div class="flex mt-3 md:mt-2">
+        @livewire('reaction', ['post' => $post])
+    </div>
 </div>
