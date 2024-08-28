@@ -84,7 +84,7 @@ class Post extends Model {
      * item represented by the model instance. If the current user has disliked the item, it returns
      * `true`, otherwise it returns
      */
-    public function getIsDisikedByCurrentUserAttribute() {
+    public function getIsDislikedByCurrentUserAttribute() {
         if (!auth()->check()) {
             return false;
         }
