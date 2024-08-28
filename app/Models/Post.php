@@ -34,6 +34,65 @@ class Post extends Model {
     }
 
     /**
+     * The function `likedByUsers` returns a relationship where the current object is liked by multiple
+     * users.
+     *
+     * @return The `likedByUsers` function is returning a relationship where the current model is
+     * related to the `User` model through a many-to-many relationship defined by the `reactions`
+     * table. The relationship is filtered to only include users who have reacted with a 'like' type
+     * reaction.
+     */
+    public function likedByUsers() {
+        return $this->belongsToMany(User::class, 'reactions')
+            ->where('reactions.type', 'like');
+    }
+
+    /**
+     * The function `dislikedByUsers` returns users who have disliked a specific item.
+     *
+     * @return The `dislikedByUsers` function is returning a relationship where the current model is
+     * related to the `User` model through the `reactions` table. It filters the results to only
+     * include users who have a 'dislike' reaction associated with the current model.
+     */
+    public function dislikedByUsers() {
+        return $this->belongsToMany(User::class, 'reactions')
+            ->where('reactions.type', 'dislike');
+    }
+
+    /**
+     * The function checks if the current user has liked a specific item.
+     *
+     * @return The `getIsLikedByCurrentUserAttribute` function is returning a boolean value. If the
+     * current user is not authenticated (not logged in), it will return `false`. If the current user
+     * is authenticated, it will check if the user has liked the current item and return `true` if they
+     * have, or `false` if they have not.
+     */
+    public function getIsLikedByCurrentUserAttribute() {
+        if (!auth()->check()) {
+            return false;
+        }
+
+        return $this->likedByUsers()->where('user_id', auth()->id())->exists();
+    }
+
+    /**
+     * The function checks if the current user has disliked a specific item.
+     *
+     * @return The `getIsDislikedByCurrentUserAttribute` function is returning a boolean value. It
+     * checks if the current user is authenticated (logged in). If the user is not authenticated, it
+     * returns `false`. If the user is authenticated, it checks if the current user has disliked the
+     * item represented by the model instance. If the current user has disliked the item, it returns
+     * `true`, otherwise it returns
+     */
+    public function getIsDisikedByCurrentUserAttribute() {
+        if (!auth()->check()) {
+            return false;
+        }
+
+        return $this->dislikedByUsers()->where('user_id', auth()->id())->exists();
+    }
+
+    /**
      * This function returns the first row from the database where the token column is equal to the token
      * parameter
      *
